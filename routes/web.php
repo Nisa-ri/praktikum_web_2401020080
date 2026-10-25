@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rule;
 
 Route::get('/mahasiswa', function (Request $request) {
     $kataKunci = trim((string) $request->query('q', ''));
@@ -69,7 +70,7 @@ Route::post('/mahasiswa', function (Request $request) {
         'nama' => ['required', 'string', 'max:100'],
         'email' => ['required', 'email', 'max:100'],
         'usia' => ['required', 'integer', 'min:15', 'max:100'],
-        'program_studi_id' => ['required', 'integer'],
+        'program_studi_id' => ['required', 'integer', Rule::exists('program_studi', 'id')],
     ]);
 
     try {
@@ -154,7 +155,7 @@ Route::put('/mahasiswa/{id}', function (
         'nama' => ['required', 'string', 'max:100'],
         'email' => ['required', 'email', 'max:100'],
         'usia' => ['required', 'integer', 'min:15', 'max:100'],
-        'program_studi_id' => ['required', 'integer'],
+        'program_studi_id' => ['required', 'integer', Rule::exists('program_studi', 'id')],
     ]);
 
     try {
